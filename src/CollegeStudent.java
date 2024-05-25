@@ -1,3 +1,4 @@
+import java.io.File;
 import java.util.Scanner;
 
 public class CollegeStudent extends Student {
@@ -33,8 +34,12 @@ public class CollegeStudent extends Student {
         return false;
     }
     @Override
-    public void  print(){
+    public void print(){
         String output = studentNumber + " " + fullName + " "+totalCredit+" "+avgScore +" "+graduationExamScore;
         System.out.println(output);
+    }
+    @Override
+    public String toString(){
+        return studentNumber + "," + fullName + ","+totalCredit+","+avgScore +","+graduationExamScore;
     }
 }

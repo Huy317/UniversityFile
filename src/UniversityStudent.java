@@ -43,4 +43,8 @@ public class UniversityStudent extends Student{
         String output = studentNumber + " " + fullName + " "+totalCredit+" "+avgScore +" "+thesisName+" "+thesisScore;
         System.out.println(output);
     }
+    @Override
+    public String toString(){
+        return studentNumber + "," + fullName + ","+totalCredit+","+avgScore +","+thesisName+","+thesisScore;
+    }
 }
