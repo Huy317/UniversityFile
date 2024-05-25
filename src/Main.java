@@ -7,12 +7,12 @@ public class Main {
         ArrayList<Student> list = new ArrayList<>();
         File studentFile = new File("Student.dat");
         try {
-            if (studentFile.createNewFile()){
+            if (studentFile.createNewFile()) {
                 System.out.println("File created: " + studentFile.getName());
             } else {
                 System.out.println("File already exists.");
             }
-        } catch (IOException e){
+        } catch (IOException e) {
             System.out.println("An error occurred.");
             e.printStackTrace();
         }
@@ -23,7 +23,7 @@ public class Main {
         int temp;
         boolean bool;
         String strInput;
-        while (n != 8){
+        while (n != 8) {
             System.out.println("-------------------------------------");
             System.out.println("1.add new college student");
             System.out.println("2.add new university student");
@@ -37,7 +37,7 @@ public class Main {
             System.out.print("Input: ");
             n = sc.nextInt();
             sc.nextLine();
-            switch (n){
+            switch (n) {
                 case 1:
                     Student collegeStudent = new CollegeStudent();
                     collegeStudent.input();
@@ -47,8 +47,7 @@ public class Main {
                         ObjectOutputStream oStream = new ObjectOutputStream(f);
                         oStream.writeObject(list);
                         oStream.close();
-                    }
-                    catch (IOException e){
+                    } catch (IOException e) {
                         System.out.println("error write file");
                     }
                     break;
@@ -61,16 +60,15 @@ public class Main {
                         ObjectOutputStream oStream = new ObjectOutputStream(f);
                         oStream.writeObject(list);
                         oStream.close();
-                    }
-                    catch (IOException e){
+                    } catch (IOException e) {
                         System.out.println("error write file");
                     }
                     break;
                 case 3:
                     System.out.print("Enter id to remove: ");
                     strInput = sc.nextLine();
-                    for (int i = 0; i<list.size();i++){
-                        if (list.get(i).getStudentNumber().equals(strInput)){
+                    for (int i = 0; i < list.size(); i++) {
+                        if (list.get(i).getStudentNumber().equals(strInput)) {
                             list.remove(i);
                             break;
                         }
@@ -80,38 +78,36 @@ public class Main {
                         ObjectOutputStream oStream = new ObjectOutputStream(f);
                         oStream.writeObject(list);
                         oStream.close();
-                    }
-                    catch (IOException e){
+                    } catch (IOException e) {
                         System.out.println("error write file");
                     }
 
 
                     break;
                 case 4:
-                    for (int i = 0;i<list.size();i++){
+                    for (int i = 0; i < list.size(); i++) {
                         list.get(i).print();
                     }
                     break;
                 case 5:
                     temp = 0;
 
-                    for (int i = 0; i<list.size();i++){
-                        if (list.get(i).isGraduate()){
+                    for (int i = 0; i < list.size(); i++) {
+                        if (list.get(i).isGraduate()) {
                             list.get(i).print();
                             temp++;
                         }
                     }
-                    System.out.println("number of eligible: "+temp);
+                    System.out.println("number of eligible: " + temp);
                     break;
                 case 6:
-                    Collections.sort(list,(Comparator.comparingInt(Student::getType).thenComparing(Student::getStudentNumber)));
+                    Collections.sort(list, (Comparator.comparingInt(Student::getType).thenComparing(Student::getStudentNumber)));
                     try {
                         FileOutputStream f = new FileOutputStream(studentFile);
                         ObjectOutputStream oStream = new ObjectOutputStream(f);
                         oStream.writeObject(list);
                         oStream.close();
-                    }
-                    catch (IOException e){
+                    } catch (IOException e) {
                         System.out.println("error write file");
                     }
                     break;
@@ -119,27 +115,26 @@ public class Main {
                     System.out.print("Enter name to search: ");
                     strInput = sc.nextLine();
                     var nameList = new ArrayList<Student>();
-                    bool = false;
-                    for (int i = 0;i<list.size();i++){
-                        if (list.get(i).getName().equals(strInput)){
+
+                    for (int i = 0; i < list.size(); i++) {
+                        if (list.get(i).getName().equals(strInput)) {
                             list.get(i).print();
                             nameList.add(list.get(i));
-                            bool = true;
+
 
                         }
                     }
-                    if (nameList.size() > 0){
+                    if (nameList.size() > 0) {
                         File result = new File("Result.dat");
                         try {
                             FileOutputStream f = new FileOutputStream(studentFile);
                             ObjectOutputStream oStream = new ObjectOutputStream(f);
                             oStream.writeObject(nameList);
                             oStream.close();
-                        }
-                        catch (IOException e){
+                        } catch (IOException e) {
                             System.out.println("error write file");
                         }
-                    }else{
+                    } else {
 
                         System.out.println("Student doesn't exist");
                     }
