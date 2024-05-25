@@ -1,21 +1,35 @@
 import java.io.*;
-import java.sql.Array;
 import java.util.*;
 
 public class Main {
     public static void main(String[] args) throws IOException {
         ArrayList<Student> list = new ArrayList<>();
-        File studentFile = new File("Student.dat");
+
+        FileInputStream fis = new FileInputStream(".\\Student.dat");
+        FileOutputStream fos = new FileOutputStream(".\\Student.dat");
+        ObjectOutputStream oStream = new ObjectOutputStream(fos);
+        ObjectInputStream iStream = new ObjectInputStream(fis);
+
         try {
-            if (studentFile.createNewFile()) {
-                System.out.println("File created: " + studentFile.getName());
-            } else {
-                System.out.println("File already exists.");
+            Student st = null;
+            while ((st = (Student)iStream.readObject()) != null){
+                list.add(st);
             }
-        } catch (IOException e) {
+        }catch (ClassNotFoundException e){
+            System.out.println("Class not found");
+        }catch (IOException e) {
             System.out.println("An error occurred.");
-            e.printStackTrace();
+            System.out.println(e);
         }
+
+//        try {
+//            list = (ArrayList<Student>) iStream.readObject();
+//        } catch (ClassNotFoundException e) {
+//            System.out.println("Class not found");
+//        } catch (IOException e) {
+//            System.out.println("Error load file");
+//        }
+
 
         Scanner sc = new Scanner(System.in);
         int n = -1;
@@ -42,27 +56,27 @@ public class Main {
                     Student collegeStudent = new CollegeStudent();
                     collegeStudent.input();
                     list.add(collegeStudent);
+
                     try {
-                        FileOutputStream f = new FileOutputStream(studentFile);
-                        ObjectOutputStream oStream = new ObjectOutputStream(f);
                         oStream.writeObject(list);
-                        oStream.close();
                     } catch (IOException e) {
-                        System.out.println("error write file");
+                        System.out.println(e);
                     }
                     break;
+                ///write
                 case 2:
                     Student uniStudent = new UniversityStudent();
                     uniStudent.input();
                     list.add(uniStudent);
+
                     try {
-                        FileOutputStream f = new FileOutputStream(studentFile);
-                        ObjectOutputStream oStream = new ObjectOutputStream(f);
-                        oStream.writeObject(list);
-                        oStream.close();
+                        for (Student stu : list) {
+                            oStream.writeObject(stu);
+                        }
                     } catch (IOException e) {
-                        System.out.println("error write file");
+                        System.out.println(e);
                     }
+                    //write
                     break;
                 case 3:
                     System.out.print("Enter id to remove: ");
@@ -73,21 +87,32 @@ public class Main {
                             break;
                         }
                     }
-                    try {
-                        FileOutputStream f = new FileOutputStream(studentFile);
-                        ObjectOutputStream oStream = new ObjectOutputStream(f);
-                        oStream.writeObject(list);
-                        oStream.close();
-                    } catch (IOException e) {
-                        System.out.println("error write file");
-                    }
 
+                    try {
+                        for (Student stu : list){
+                            oStream.writeObject(stu);
+                        }
+                    } catch (IOException e) {
+                        System.out.println(e);
+                    }
 
                     break;
                 case 4:
                     for (int i = 0; i < list.size(); i++) {
                         list.get(i).print();
                     }
+//                    ArrayList<Student> listFile = new ArrayList<>();
+//                    try {
+//                        listFile = (ArrayList<Student>) iStream.readObject();
+//                    }catch (ClassNotFoundException e){
+//                        System.out.println("Class not found");
+//                    }catch (IOException e){
+//                        System.out.println("Error load file");
+//                        System.out.println(e);
+//                    }
+//                    for (int i = 0;i<listFile.size();i++){
+//                        list.get(i).print();
+//                    }
                     break;
                 case 5:
                     temp = 0;
@@ -103,10 +128,9 @@ public class Main {
                 case 6:
                     Collections.sort(list, (Comparator.comparingInt(Student::getType).thenComparing(Student::getStudentNumber)));
                     try {
-                        FileOutputStream f = new FileOutputStream(studentFile);
-                        ObjectOutputStream oStream = new ObjectOutputStream(f);
-                        oStream.writeObject(list);
-                        oStream.close();
+                        for (Student stu : list){
+                            oStream.writeObject(stu);
+                        }
                     } catch (IOException e) {
                         System.out.println("error write file");
                     }
@@ -114,23 +138,22 @@ public class Main {
                 case 7:
                     System.out.print("Enter name to search: ");
                     strInput = sc.nextLine();
+
                     var nameList = new ArrayList<Student>();
 
                     for (int i = 0; i < list.size(); i++) {
                         if (list.get(i).getName().equals(strInput)) {
                             list.get(i).print();
                             nameList.add(list.get(i));
-
-
                         }
                     }
                     if (nameList.size() > 0) {
-                        File result = new File("Result.dat");
+                        FileOutputStream fos2 = new FileOutputStream(".\\Result.dat");
+                        ObjectOutputStream oos = new ObjectOutputStream(fos2);
                         try {
-                            FileOutputStream f = new FileOutputStream(studentFile);
-                            ObjectOutputStream oStream = new ObjectOutputStream(f);
-                            oStream.writeObject(nameList);
-                            oStream.close();
+                            for (Student stu : nameList){
+                                oos.writeObject(stu);
+                            }
                         } catch (IOException e) {
                             System.out.println("error write file");
                         }
@@ -140,11 +163,13 @@ public class Main {
                     }
                     break;
                 case 8:
+                    //write...
                     break;
                 default:
                     break;
             }
-
+            oStream.close();
+            iStream.close();
         }
     }
 }

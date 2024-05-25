@@ -1,6 +1,7 @@
+import java.io.Serializable;
 import java.util.Scanner;
 
-public class UniversityStudent extends Student{
+public class UniversityStudent extends Student implements Serializable {
     private String thesisName;
     private double thesisScore;
 

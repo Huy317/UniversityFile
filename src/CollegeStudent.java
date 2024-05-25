@@ -1,7 +1,8 @@
 import java.io.File;
+import java.io.Serializable;
 import java.util.Scanner;
 
-public class CollegeStudent extends Student {
+public class CollegeStudent extends Student implements Serializable {
     private double graduationExamScore;
 
     public CollegeStudent(String studentNumber, String fullName, int totalCredit, double avgScore, double graduationExamScore) {

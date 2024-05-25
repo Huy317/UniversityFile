@@ -1,6 +1,7 @@
+import java.io.Serializable;
 import java.util.Scanner;
 
-public class Student {
+public class Student implements Serializable {
 
 
     protected String studentNumber;
